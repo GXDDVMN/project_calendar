@@ -42,8 +42,9 @@ public class UserController {
                 userService.findUserByEmail(
                         principal.getName()).getId(), LocalDate.now().getMonth());
     }
-//    @PostMapping("/dates/save")
-//    public String saveDate(@ModelAttribute("date")DateDTO dateDTO){
-//        dateService.saveDate(dateDTO);
-//    }
+    @PostMapping("/dates/save")
+    public String saveDate(@ModelAttribute("date")DateDTO dateDTO){
+        dateService.saveDate(dateDTO);
+        return "redirect:/dates";
+    }
 }

@@ -6,6 +6,7 @@ import com.drobov.project.project_calendar.dto.UserDTO;
 import com.drobov.project.project_calendar.entity.Date;
 import com.drobov.project.project_calendar.entity.User;
 import com.drobov.project.project_calendar.repository.DateRepository;
+import com.drobov.project.project_calendar.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ import java.util.stream.Collectors;
 public class DateServiceImpl implements DateService{
     @Autowired
     private DateRepository dateRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public List<DateDTO> showDates() {
         return mapToListDTO(dateRepository.findAll());
@@ -33,10 +36,10 @@ public class DateServiceImpl implements DateService{
         return null;
     }
 
-//    @Override
-//    public void saveDate(DateDTO dateDTO) {
-//        dateRepository.save()
-//    }
+    @Override
+    public void saveDate(DateDTO dateDTO) {
+        dateRepository.save(mapDTOToDate(dateDTO));
+    }
 
     @Override
     public void deleteDate(int id) {
@@ -59,6 +62,18 @@ public class DateServiceImpl implements DateService{
         return dateDTO;
     }
 
+    public Date mapDTOToDate(DateDTO dateDTO){
+        Date date = new Date();
+        date.setDateof(dateDTO.getDateof());
+        date.setStarttime(dateDTO.getStarttime());
+        date.setEndtime(dateDTO.getEndtime());
+        date.setSalary(dateDTO.getSalary());
+        date.setDoname(dateDTO.getDoname());
+        date.setDescrip(dateDTO.getDescrip());
+        date.setWorkbool(dateDTO.getWorkbool());
+        date.setUser(userRepository.findById(dateDTO.getUser_id()).get());
+        return date;
+    }
     @Override
     public List<DateDTO> showDatesForMonth(Long user_id, Month month) {
         List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id));
