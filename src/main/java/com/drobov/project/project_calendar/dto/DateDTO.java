@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Builder
 public class DateDTO {
     private long user_id;
-    private LocalDate dateof;
+    private String dateof;
     private LocalTime starttime;
     private LocalTime endtime;
     private Boolean workbool;

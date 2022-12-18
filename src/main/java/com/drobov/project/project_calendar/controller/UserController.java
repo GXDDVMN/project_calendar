@@ -42,6 +42,13 @@ public class UserController {
                 userService.findUserByEmail(
                         principal.getName()).getId(), LocalDate.now().getMonth());
     }
+
+    @GetMapping("/dates/save")
+    public String getSaveDate(Model model){
+        DateDTO dateDTO = new DateDTO();
+        model.addAttribute("date",dateDTO);
+        return "/savedate";
+    }
     @PostMapping("/dates/save")
     public String saveDate(@ModelAttribute("date")DateDTO dateDTO){
         dateService.saveDate(dateDTO);

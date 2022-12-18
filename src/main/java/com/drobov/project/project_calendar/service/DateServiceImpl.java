@@ -8,8 +8,13 @@ import com.drobov.project.project_calendar.entity.User;
 import com.drobov.project.project_calendar.repository.DateRepository;
 import com.drobov.project.project_calendar.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.endpoint.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.net.Authenticator;
+import java.security.AuthProvider;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,8 +42,12 @@ public class DateServiceImpl implements DateService{
     }
 
     @Override
-    public void saveDate(DateDTO dateDTO) {
-        dateRepository.save(mapDTOToDate(dateDTO));
+    public void saveDate(DateDTO dateDTO)
+    {
+        User user= userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Date date=mapDTOToDate(dateDTO);
+        date.setUser(user);
+        dateRepository.save(date);
     }
 
     @Override
@@ -51,7 +60,7 @@ public class DateServiceImpl implements DateService{
     }
     public DateDTO mapToDateDto(Date date){
         DateDTO dateDTO = new DateDTO();
-        dateDTO.setDateof(date.getDateof());
+        dateDTO.setDateof(date.getDateof().toString());
         dateDTO.setStarttime(date.getStarttime());
         dateDTO.setEndtime(date.getEndtime());
         dateDTO.setSalary(date.getSalary());
@@ -64,19 +73,19 @@ public class DateServiceImpl implements DateService{
 
     public Date mapDTOToDate(DateDTO dateDTO){
         Date date = new Date();
-        date.setDateof(dateDTO.getDateof());
+        date.setDateof(LocalDate.parse(dateDTO.getDateof()));
         date.setStarttime(dateDTO.getStarttime());
         date.setEndtime(dateDTO.getEndtime());
         date.setSalary(dateDTO.getSalary());
         date.setDoname(dateDTO.getDoname());
         date.setDescrip(dateDTO.getDescrip());
         date.setWorkbool(dateDTO.getWorkbool());
-        date.setUser(userRepository.findById(dateDTO.getUser_id()).get());
+        //date.setUser(userRepository.findById(dateDTO.getUser_id()).get());
         return date;
     }
     @Override
     public List<DateDTO> showDatesForMonth(Long user_id, Month month) {
-        List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id));
-        return allDates.stream().filter(date->date.getDateof().getMonth()==month).toList();
+        List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id).stream().filter(date->date.getDateof().getMonth()==month).toList());
+        return allDates;
     }
 }
