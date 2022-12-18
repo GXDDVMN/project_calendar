@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>Registration and Login System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/}">Registration and Login System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br /><br /><br />
+<div class="container">
+  <div class="row col-md-8 offset-md-2">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="text-center">Date adding</h2>
+      </div>
+      <div th:if="${param.success}">
+        <div class="alert alert-info">
+          You have successfully added the date!
+        </div>
+      </div>
+      <div class="card-body">
+        <form
+                method="post"
+                role="form"
+                th:action="@{/dates/save}"
+                th:object="${date}"
+        >
+          <div class="form-group mb-3">
+            <label class="form-label">Name</label>
+            <input
+                    class="form-control"
+                    id="doname"
+                    name="doname"
+                    placeholder="Enter name of date"
+                    th:field="*{doname}"
+                    type="text"
+            />
+            <p th:errors = "*{doname}" class="text-danger"
+               th:if="${#fields.hasErrors('doname')}"></p>
+          </div>
+
+
+          <div class="form-group mb-3">
+            <label class="form-label">Description</label>
+            <input
+                    class="form-control"
+                    id="descrip"
+                    name="descrip"
+                    placeholder="Enter description"
+                    th:field="*{descrip}"
+                    type="text"
+            />
+            <p th:errors = "*{descrip}" class="text-danger"
+               th:if="${#fields.hasErrors('descrip')}"></p>
+          </div>
+
+          <div class="form-group mb-3">
+            <label class="form-label">Date</label>
+            <input
+                    class="form-control"
+                    id="dateof"
+                    name="dateof"
+                    placeholder="Enter the date"
+                    th:field="*{dateof}"
+                    type="date"
+            />
+            <p th:errors = "*{dateof}" class="text-danger"
+               th:if="${#fields.hasErrors('dateof')}"></p>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Start time</label>
+            <input
+                    class="form-control"
+                    id="starttime"
+                    name="starttime"
+                    placeholder="Enter time of starting"
+                    th:field="*{starttime}"
+                    type="time"
+            />
+            <p th:errors = "*{descrip}" class="text-danger"
+               th:if="${#fields.hasErrors('descrip')}"></p>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Ending time</label>
+            <input
+                    class="form-control"
+                    id="endtime"
+                    name="endtime"
+                    placeholder="Enter time of ending"
+                    th:field="*{endtime}"
+                    type="time"
+            />
+            <p th:errors = "*{endtime}" class="text-danger"
+               th:if="${#fields.hasErrors('endtime')}"></p>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Salary(if it is a work)</label>
+            <input
+                    class="form-control"
+                    id="salary"
+                    name="salary"
+                    placeholder="Enter your salary"
+                    th:field="*{salary}"
+                    type="number"
+            />
+            <p th:errors = "*{salary}" class="text-danger"
+               th:if="${#fields.hasErrors('salary')}"></p>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Is it work?</label>
+            <input
+                    id="workbool"
+                    name="workbool"
+                    value="true"
+                    th:field="*{workbool}"
+                    type="checkbox"
+            />
+            <p th:errors = "*{workbool}" class="text-danger"
+               th:if="${#fields.hasErrors('workbool')}"></p>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" type="submit">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
