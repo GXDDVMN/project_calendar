@@ -31,6 +31,11 @@ public class DateServiceImpl implements DateService{
     }
 
     @Override
+    public DateDTO showDate(Long id) {
+        return mapToDateDto(dateRepository.findById(id));
+    }
+
+    @Override
     public List<DateDTO> showDatesForUser(long user_id) {
 
         return mapToListDTO(dateRepository.findAllByUser_Id(user_id));

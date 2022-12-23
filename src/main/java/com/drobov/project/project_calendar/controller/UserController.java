@@ -6,14 +6,12 @@ import com.drobov.project.project_calendar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -22,10 +20,15 @@ public class UserController {
     @Autowired
     private UserService userService;
     @GetMapping("/calendar")
-    public String calendar(Model model) {
+    public String calendar(Model model,Principal principal) {
         LocalDate localdate = LocalDate.now();
         model.addAttribute("month", localdate);
         model.addAttribute("year", localdate.getYear());
+        List<DateDTO> dates=dateService.showDatesForMonth(userService.findUserByEmail(
+                principal.getName()).getId(), LocalDate.now().getMonth());
+        List<Integer> days = dates.stream().map(dateDTO -> Integer.parseInt(dateDTO.getDateof().substring(8))).toList();
+        model.addAttribute("dates",dates);
+        model.addAttribute("days", days);
         return "calendar";
     }
     @ResponseBody
@@ -53,5 +56,10 @@ public class UserController {
     public String saveDate(@ModelAttribute("date")DateDTO dateDTO){
         dateService.saveDate(dateDTO);
         return "redirect:/dates";
+    }
+    @ResponseBody
+    @GetMapping("/date")
+    public DateDTO getDate(@RequestParam("id") Long id){
+        return dateService.showDate(id);
     }
 }

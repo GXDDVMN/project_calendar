@@ -28,6 +28,7 @@
 <p th:text ="${month.getMonth()}"></p>
 <p th:text ="${year}"></p>
 
+
 <div id="calendar"></div>
 
 
@@ -36,6 +37,13 @@
 
     let mon = month - 1; // месяцы в JS идут от 0 до 11, а не от 1 до 12
     let d = new Date(year, mon);
+    let dayyys = "[[${days}]]";
+    let days3 = dayyys.substring(1,dayyys.length-1).split(',');
+    let params = new URL("http://localhost:8080/date?id=0");
+
+    // document.writeln(days3);
+    // document.writeln(days3.length);    //ДЛЯ ТЕСТА
+    // document.writeln(days3.at(0));
 
     let table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
 
@@ -48,7 +56,22 @@
 
     // <td> ячейки календаря с датами
     while (d.getMonth() == mon) {
-      table += '<td>' + d.getDate() + '</td>'; //ТУТ НАДО РЕАЛИЗОВАТЬ ШТУКУ ДОБАВЛЯЮЩУУЮ ЗАМЕТКИ
+
+
+
+
+
+     if (days3.includes(d.getDate().toString())){
+       params.searchParams.set('id',d.getDate().toString())
+       table += '<td>' + d.getDate() + params + '<a href="'+params+'">Add date</a>' +'</td>';
+      }
+     else {
+       table += '<td>' + d.getDate() +'</td>';
+     }
+
+
+
+
 
       if (getDay(d) % 7 == 6) { // вс, последний день - перевод строки
         table += '</tr><tr>';
@@ -79,5 +102,7 @@
   createCalendar(calendar, "[[${year}]]", "[[${month.getMonthValue()}]]");
 </script>
 
+
+<a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>

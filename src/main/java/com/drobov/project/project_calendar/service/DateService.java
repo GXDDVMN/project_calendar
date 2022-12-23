@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface DateService {
     public List<DateDTO> showDates();
+    public DateDTO showDate(Long id);
     public List<DateDTO> showDatesForUser(long user_id);
     public Date showThisDate(Date date);
     public void saveDate(DateDTO dateDTO);

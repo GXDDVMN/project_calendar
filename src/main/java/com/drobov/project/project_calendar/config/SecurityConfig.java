@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .antMatchers("/").permitAll()
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/dates/**").authenticated()
+                .antMatchers("/calendar/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
