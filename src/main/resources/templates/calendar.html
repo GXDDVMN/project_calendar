@@ -61,14 +61,26 @@
 
 
 
-     if (days3.includes(d.getDate().toString())){
-       params.searchParams.set('id',d.getDate().toString())
-       table += '<td>' + d.getDate() + params + '<a href="'+params+'">Add date</a>' +'</td>';
-      }
-     else {
-       table += '<td>' + d.getDate() +'</td>';
-     }
+     // if (days3.includes(d.getDate().toString())){
+     //   params.searchParams.set('id',d.getDate().toString())
+     //   table += '<td>' + d.getDate() + params + '<a href="'+params+'">Add date</a>' +'</td>';
+     //  }
+     // else {
+     //   table += '<td>' + d.getDate() +'</td>';
+     // }
 
+      let a = '<td>'+d.getDate();
+      if (days3.includes(d.getDate().toString())){
+        params.searchParams.set('id',d.getDate().toString())
+        let i =days3.indexOf(d.getDate().toString());
+        //let i =d.getDate().toString();
+        a+='<a href="'+params+'">"[(${dates.get(0).starttime})]"</a>' +'</td>';
+
+       }
+
+      table +=a+'</td>';
+
+      //days3.indexOf(d.getDate().toString())
 
 
 
@@ -102,7 +114,7 @@
   createCalendar(calendar, "[[${year}]]", "[[${month.getMonthValue()}]]");
 </script>
 
-
+<span th:text="${dates.get(0).starttime.getHour()}"></span>
 <a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>
