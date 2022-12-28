@@ -37,13 +37,10 @@
 
     let mon = month - 1; // месяцы в JS идут от 0 до 11, а не от 1 до 12
     let d = new Date(year, mon);
-    let dayyys = "[[${days}]]";
-    let days3 = dayyys.substring(1,dayyys.length-1).split(',');
-    let params = new URL("http://localhost:8080/date?id=0");
+    let days3 = "[[${days}]]".substring(1,"[[${days}]]".length-1).split(',');
+    let dates2 = JSON.parse([[${datesjson}]]);
 
-    // document.writeln(days3);
-    // document.writeln(days3.length);    //ДЛЯ ТЕСТА
-    // document.writeln(days3.at(0));
+
 
     let table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
 
@@ -61,26 +58,18 @@
 
 
 
-     // if (days3.includes(d.getDate().toString())){
-     //   params.searchParams.set('id',d.getDate().toString())
-     //   table += '<td>' + d.getDate() + params + '<a href="'+params+'">Add date</a>' +'</td>';
-     //  }
-     // else {
-     //   table += '<td>' + d.getDate() +'</td>';
-     // }
 
       let a = '<td>'+d.getDate();
       if (days3.includes(d.getDate().toString())){
-        params.searchParams.set('id',d.getDate().toString())
-        let i =days3.indexOf(d.getDate().toString());
-        //let i =d.getDate().toString();
-        a+='<a href="'+params+'">"[(${dates.get(0).starttime})]"</a>' +'</td>';
+        for (let i=0;i<days3.length;i++){
+          if(days3[i]==d.getDate())
+          a+='<p><input type="button" value="'+dates2[i].starttime+'" onclick="getDate(\''+i+'\');"  ></p>';
+        }
+        a+='</td>';
 
-       }
-
+      }
       table +=a+'</td>';
 
-      //days3.indexOf(d.getDate().toString())
 
 
 
@@ -111,10 +100,16 @@
     if (day == 0) day = 7; // сделать воскресенье (0) последним днем
     return day - 1;
   }
+  function getDate(day){
+    let dates = JSON.parse([[${datesjson}]]);
+    alert(JSON.stringify(dates[day]));
+  }
+
   createCalendar(calendar, "[[${year}]]", "[[${month.getMonthValue()}]]");
 </script>
 
-<span th:text="${dates.get(0).starttime.getHour()}"></span>
+
+<span th:text="${datesjson}"></span>
 <a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>

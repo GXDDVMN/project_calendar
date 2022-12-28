@@ -1,5 +1,6 @@
 package com.drobov.project.project_calendar.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,9 @@ import java.time.LocalTime;
 public class DateDTO {
     private long user_id;
     private String dateof;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime starttime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endtime;
     private Boolean workbool;
     private String doname;
