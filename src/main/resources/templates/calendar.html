@@ -59,7 +59,20 @@
 <p th:text ="${year}"></p>
 
 
-<div id="calendar"></div>
+<!--<div id="calendar2"></div>-->
+<div style="display: flex; ">
+  <div id="calendar"></div>
+  <div id="dayof" hidden>
+    Name:
+    <br>
+    Description:
+    <br>
+    Date:
+    <br>
+  </div>
+  <div id="des">
+  </div>
+</div>
 
 
 <script th:inline="javascript">
@@ -130,16 +143,29 @@
     if (day == 0) day = 7; // сделать воскресенье (0) последним днем
     return day - 1;
   }
+  // function getDate(day){
+  //   let dates = JSON.parse([[${datesjson}]]);
+  //   // alert(JSON.stringify(dates[day]));
+  //   dayof.innerHTML=(JSON.stringify(dates[day]));
+  // }
   function getDate(day){
     let dates = JSON.parse([[${datesjson}]]);
-    alert(JSON.stringify(dates[day]));
+    // alert(JSON.stringify(dates[day]));
+
+    //dayof.innerHTML=(JSON.stringify(dates[day]));
+    dayof.hidden=false;
+    des.innerHTML=(dates[day].doname);
+    des.innerHTML+=('<br>');
+    des.innerHTML+=(dates[day].descrip);
+    des.innerHTML+=('<br>');
+    des.innerHTML+=(dates[day].starttime);
   }
 
   createCalendar(calendar, "[[${year}]]", "[[${month.getMonthValue()}]]");
 </script>
 
 
-<span th:text="${datesjson}"></span>
+<!--<span th:text="${datesjson}"></span>-->
 <a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>
