@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,12 @@ public class UserController {
     private DateService dateService;
     @Autowired
     private UserService userService;
+    private LocalDate localDate=LocalDate.now();
     @GetMapping("/calendar")
     public String calendar(Model model,Principal principal) throws JsonProcessingException {
-        LocalDate localdate = LocalDate.now();
-        model.addAttribute("month", localdate);
-        model.addAttribute("year", localdate.getYear());
+        model.addAttribute("local", localDate);
         List<DateDTO> dates=dateService.showDatesForMonth(userService.findUserByEmail(
-                principal.getName()).getId(), LocalDate.now().getMonth());
+                principal.getName()).getId(), localDate.getMonth());
         List<Integer> days = dates.stream().map(dateDTO -> Integer.parseInt(dateDTO.getDateof().substring(8))).toList();
         model.addAttribute("dates",dates);
 
@@ -37,6 +37,21 @@ public class UserController {
         model.addAttribute("datesjson", objectMapper.writeValueAsString(dates));
         model.addAttribute("days", days);
         return "calendar";
+    }
+    @GetMapping("/calendar/previous")
+    public String previousCalendar(){
+        localDate=localDate.minusMonths(1);
+        return "redirect:/calendar";
+    }
+    @GetMapping("/calendar/next")
+    public String nextCalendar(){
+        localDate=localDate.plusMonths(1);
+        return "redirect:/calendar";
+    }
+    @GetMapping("/calendar/now")
+    public String nowCalendar(){
+        localDate=LocalDate.now();
+        return "redirect:/calendar";
     }
     @ResponseBody
     @GetMapping("/dates")

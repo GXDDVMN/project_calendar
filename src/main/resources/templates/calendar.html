@@ -55,13 +55,21 @@
   </div>
 </nav>
 <br/><br/><br/>
-<p th:text ="${month.getMonth()}"></p>
-<p th:text ="${year}"></p>
+<div>
+  <p><a th:href="@{/calendar/now}"> Go to Now </a></p>
+  <a th:href="@{/calendar/previous}"> <- </a>
+  <text th:text ="${local.getMonth()}"></text>
+  <a th:href="@{/calendar/next}"> -> </a>
+  <p th:text ="${local.getYear()}"></p>
+</div>
+
+
 
 
 <!--<div id="calendar2"></div>-->
 <div style="display: flex; ">
-  <div id="calendar"></div>
+  <div id="calendar">
+  </div>
   <div id="dayof" hidden>
     Name:
     <br>
@@ -135,7 +143,7 @@
     // закрыть таблицу
     table += '</tr></table>';
 
-    elem.innerHTML = table;
+    elem.innerHTML += table;
   }
 
   function getDay(date) { // получить номер дня недели, от 0 (пн) до 6 (вс)
@@ -161,7 +169,7 @@
     des.innerHTML+=(dates[day].starttime);
   }
 
-  createCalendar(calendar, "[[${year}]]", "[[${month.getMonthValue()}]]");
+  createCalendar(calendar, "[[${local.getYear()}]]", "[[${local.getMonthValue()}]]");
 </script>
 
 
