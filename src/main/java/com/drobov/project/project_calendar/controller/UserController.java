@@ -3,11 +3,9 @@ package com.drobov.project.project_calendar.controller;
 import com.drobov.project.project_calendar.dto.DateDTO;
 import com.drobov.project.project_calendar.service.DateService;
 import com.drobov.project.project_calendar.service.UserService;
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -23,12 +20,14 @@ public class UserController {
     private DateService dateService;
     @Autowired
     private UserService userService;
-    private LocalDate localDate=LocalDate.now();
-    @GetMapping("/calendar")
-    public String calendar(Model model,Principal principal) throws JsonProcessingException {
+    //private LocalDate localDate=LocalDate.now();
+    @GetMapping("/calendar/{id}")
+    public String calendar(Model model,Principal principal,@PathVariable Integer id) throws JsonProcessingException {
+        if (id == null) id=0;
+        LocalDate localDate=LocalDate.now().plusMonths(id);
         model.addAttribute("local", localDate);
         List<DateDTO> dates=dateService.showDatesForMonth(userService.findUserByEmail(
-                principal.getName()).getId(), localDate.getMonth());
+                    principal.getName()).getId(), localDate.getMonth());
         List<Integer> days = dates.stream().map(dateDTO -> Integer.parseInt(dateDTO.getDateof().substring(8))).toList();
         model.addAttribute("dates",dates);
 
@@ -38,20 +37,10 @@ public class UserController {
         model.addAttribute("days", days);
         return "calendar";
     }
-    @GetMapping("/calendar/previous")
-    public String previousCalendar(){
-        localDate=localDate.minusMonths(1);
-        return "redirect:/calendar";
-    }
-    @GetMapping("/calendar/next")
-    public String nextCalendar(){
-        localDate=localDate.plusMonths(1);
-        return "redirect:/calendar";
-    }
-    @GetMapping("/calendar/now")
+
+    @GetMapping("/calendar")
     public String nowCalendar(){
-        localDate=LocalDate.now();
-        return "redirect:/calendar";
+        return "redirect:/calendar/0";
     }
     @ResponseBody
     @GetMapping("/dates")

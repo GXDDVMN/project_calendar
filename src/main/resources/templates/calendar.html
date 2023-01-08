@@ -25,7 +25,11 @@
       font-weight: normal;
       background-color: #E6E6E6;
     }
+    .button2 {
+      background-color: red;
+    }
   </style>
+
 </head>
 
 <body>
@@ -56,10 +60,11 @@
 </nav>
 <br/><br/><br/>
 <div>
-  <p><a th:href="@{/calendar/now}"> Go to Now </a></p>
-  <a th:href="@{/calendar/previous}"> <- </a>
+  <p><a th:href="@{/calendar}"> Go to Now </a></p>
+
+    <a id="elemIdMinus" href=""> <- </a>
   <text th:text ="${local.getMonth()}"></text>
-  <a th:href="@{/calendar/next}"> -> </a>
+    <a id="elemIdPlus" href=""> -> </a>
   <p th:text ="${local.getYear()}"></p>
 </div>
 
@@ -114,6 +119,9 @@
       if (days3.includes(d.getDate().toString())){
         for (let i=0;i<days3.length;i++){
           if(days3[i]==d.getDate())
+            if (dates2[i].workbool==true)
+              a+='<p><input type="button" class="button2" value="'+dates2[i].starttime+'" onclick="getDate(\''+i+'\');"  ></p>';
+            else
           a+='<p><input type="button" value="'+dates2[i].starttime+'" onclick="getDate(\''+i+'\');"  ></p>';
         }
         a+='</td>';
@@ -168,12 +176,20 @@
     des.innerHTML+=('<br>');
     des.innerHTML+=(dates[day].starttime);
   }
+  function getURL(){
+    let link = window.location.href;
+    let val = Number(link.split('/').pop());
+    const a = document.querySelector('#elemIdMinus');
+    a.href = `/calendar/${val-1}`;
+    const b = document.querySelector('#elemIdPlus');
+    b.href = `/calendar/${val+1}`;
+  }
 
+  getURL();
   createCalendar(calendar, "[[${local.getYear()}]]", "[[${local.getMonthValue()}]]");
 </script>
 
 
-<!--<span th:text="${datesjson}"></span>-->
 <a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>
