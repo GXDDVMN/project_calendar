@@ -2,7 +2,6 @@ package com.drobov.project.project_calendar.service;
 
 import com.drobov.project.project_calendar.dto.UserDTO;
 import com.drobov.project.project_calendar.entity.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 

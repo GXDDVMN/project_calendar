@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-//import java.time
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +22,6 @@ public class Date {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
-//    @Column(name="username")
-//    private String username;
     @Column(name="dateof")
     private LocalDate dateof;
     @Column(name="starttime")

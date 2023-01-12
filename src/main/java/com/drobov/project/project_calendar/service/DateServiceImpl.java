@@ -2,18 +2,15 @@ package com.drobov.project.project_calendar.service;
 
 
 import com.drobov.project.project_calendar.dto.DateDTO;
-import com.drobov.project.project_calendar.dto.UserDTO;
 import com.drobov.project.project_calendar.entity.Date;
 import com.drobov.project.project_calendar.entity.User;
 import com.drobov.project.project_calendar.repository.DateRepository;
 import com.drobov.project.project_calendar.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.endpoint.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.net.Authenticator;
-import java.security.AuthProvider;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
@@ -54,10 +51,10 @@ public class DateServiceImpl implements DateService{
         date.setUser(user);
         dateRepository.save(date);
     }
-
+    @Transactional
     @Override
-    public void deleteDate(int id) {
-
+    public void deleteDate(long id) {
+        dateRepository.deleteById(id);
     }
 
     public List<DateDTO> mapToListDTO(List<Date> dates){
@@ -65,6 +62,7 @@ public class DateServiceImpl implements DateService{
     }
     public DateDTO mapToDateDto(Date date){
         DateDTO dateDTO = new DateDTO();
+        dateDTO.setId(date.getId());
         dateDTO.setDateof(date.getDateof().toString());
         dateDTO.setStarttime(date.getStarttime());
         dateDTO.setEndtime(date.getEndtime());
@@ -78,6 +76,7 @@ public class DateServiceImpl implements DateService{
 
     public Date mapDTOToDate(DateDTO dateDTO){
         Date date = new Date();
+        date.setId(dateDTO.getId());
         date.setDateof(LocalDate.parse(dateDTO.getDateof()));
         date.setStarttime(dateDTO.getStarttime());
         date.setEndtime(dateDTO.getEndtime());
@@ -85,7 +84,7 @@ public class DateServiceImpl implements DateService{
         date.setDoname(dateDTO.getDoname());
         date.setDescrip(dateDTO.getDescrip());
         date.setWorkbool(dateDTO.getWorkbool());
-        //date.setUser(userRepository.findById(dateDTO.getUser_id()).get());
+
         return date;
     }
     @Override

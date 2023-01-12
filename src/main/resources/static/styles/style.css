@@ -1,0 +1,30 @@
+@charset "UTF-8";
+.button1 {
+    background-color: #7bff90;
+}
+.button2 {
+    background-color: #ff0017;
+}
+body{
+    background-color: darkgrey;
+}
+table {
+    border-collapse: collapse;
+}
+
+td,
+th {
+    border: 2px solid black;
+    padding: 25px;
+    text-align: center;
+    vertical-align: text-bottom;
+    background-color: rgba(0,0,0,0.45);
+}
+td {
+    color: navy;
+}
+
+th {
+    font-weight: normal;
+    background-color: #E6E6E6;
+}

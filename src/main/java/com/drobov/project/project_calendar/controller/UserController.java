@@ -63,10 +63,21 @@ public class UserController {
         model.addAttribute("date",dateDTO);
         return "/savedate";
     }
+    @GetMapping("/dates/edit")
+    public String getEditDate(@RequestParam("dateId")long id, Model model){
+        DateDTO dateDTO = dateService.showDate(id);
+        model.addAttribute("date",dateDTO);
+        return "/savedate";
+    }
+    @GetMapping("/dates/delete")
+    public String getDeleteDate(@RequestParam("dateId")long id){
+        dateService.deleteDate(id);
+        return "redirect:/calendar";
+    }
     @PostMapping("/dates/save")
     public String saveDate(@ModelAttribute("date")DateDTO dateDTO){
         dateService.saveDate(dateDTO);
-        return "redirect:/dates";
+        return "redirect:/calendar";
     }
     @ResponseBody
     @GetMapping("/date")

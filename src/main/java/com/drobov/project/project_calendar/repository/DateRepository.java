@@ -14,4 +14,6 @@ import java.util.List;
 public interface DateRepository extends JpaRepository<Date,Integer> {
     public List<Date> findAllByUser_Id(long user_id);
     public Date findById(Long id);
+    public void deleteById(Long id);
+
 }

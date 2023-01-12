@@ -45,7 +45,6 @@ public class MainController {
         return "register";
     }
 
-    // handler method to handle user registration form submit request
     @PostMapping("/register/save")
     public String registration(@Valid @ModelAttribute("user") UserDTO userDto,
                                BindingResult result,

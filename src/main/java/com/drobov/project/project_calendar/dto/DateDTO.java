@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 public class DateDTO {
+    private long id;
     private long user_id;
     private String dateof;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")

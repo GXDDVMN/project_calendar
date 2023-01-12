@@ -15,7 +15,7 @@ public interface DateService {
     public List<DateDTO> showDatesForUser(long user_id);
     public Date showThisDate(Date date);
     public void saveDate(DateDTO dateDTO);
-    public void deleteDate(int id);
+    public void deleteDate(long id);
     public List<DateDTO> mapToListDTO(List<Date> dates);
     public DateDTO mapToDateDto(Date date);
     public List<DateDTO> showDatesForMonth(Long user_id,Month month);
