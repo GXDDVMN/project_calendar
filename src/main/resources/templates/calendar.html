@@ -41,7 +41,7 @@
     </div>
   </div>
 </nav>
-<br/><br/><br/>
+<br/><br/>
 <div>
   <p><a th:href="@{/calendar}"> Go to Now </a></p>
 
@@ -178,7 +178,7 @@
   createCalendar(calendar, "[[${local.getYear()}]]", "[[${local.getMonthValue()}]]");
 </script>
 
-
+<p th:text="${notes}"></p>
 <a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>

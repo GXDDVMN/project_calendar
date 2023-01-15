@@ -10,13 +10,12 @@ import java.time.Month;
 import java.util.List;
 
 public interface DateService {
-    public List<DateDTO> showDates();
-    public DateDTO showDate(Long id);
-    public List<DateDTO> showDatesForUser(long user_id);
-    public Date showThisDate(Date date);
-    public void saveDate(DateDTO dateDTO);
-    public void deleteDate(long id);
-    public List<DateDTO> mapToListDTO(List<Date> dates);
-    public DateDTO mapToDateDto(Date date);
-    public List<DateDTO> showDatesForMonth(Long user_id,Month month);
+    List<DateDTO> showDates();
+    DateDTO showDate(long id);
+    List<DateDTO> showDatesForUser(long user_id);
+    void saveDate(DateDTO dateDTO);
+    void deleteDate(long id);
+    List<DateDTO> mapToListDTO(List<Date> dates);
+    DateDTO mapToDateDto(Date date);
+    List<DateDTO> showDatesForMonth(long user_id,Month month);
 }

@@ -28,19 +28,14 @@ public class DateServiceImpl implements DateService{
     }
 
     @Override
-    public DateDTO showDate(Long id) {
-        return mapToDateDto(dateRepository.findById(id));
+    public DateDTO showDate(long id) {
+        return mapToDateDto(dateRepository.findById(id).get());
     }
 
     @Override
     public List<DateDTO> showDatesForUser(long user_id) {
 
         return mapToListDTO(dateRepository.findAllByUser_Id(user_id));
-    }
-
-    @Override
-    public Date showThisDate(Date date) {
-        return null;
     }
 
     @Override
@@ -88,7 +83,7 @@ public class DateServiceImpl implements DateService{
         return date;
     }
     @Override
-    public List<DateDTO> showDatesForMonth(Long user_id, Month month) {
+    public List<DateDTO> showDatesForMonth(long user_id, Month month) {
         List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id).stream().filter(date->date.getDateof().getMonth()==month).toList());
         return allDates;
     }
