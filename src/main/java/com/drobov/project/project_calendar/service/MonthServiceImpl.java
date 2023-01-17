@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.time.YearMonth;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class MonthServiceImpl implements MonthService{
 
     @Override
     public List<MonthDTO> getNotesForUser(long user_id, YearMonth month) {
-        return mapToListDTO(monthRepository.findAllByUser_IdAndMonth(user_id, month));
+        return mapToListDTO(monthRepository.findAllByUser_IdAndMonth(user_id, LocalDate.of(month.getYear(),month.getMonth(),1)));
     }
     @Override
     public void saveNote(MonthDTO monthDTO){
@@ -35,9 +36,9 @@ public class MonthServiceImpl implements MonthService{
     @Override
     public Month mapDTOToMonth(MonthDTO monthDTO) {
         Month month=new Month();
-        month.setMonth(monthDTO.getMonth());
-        month.setId(month.getId());
-        month.setNotes(month.getNotes());
+        month.setMonth(monthDTO.getMonth().atDay(1));
+        month.setId(monthDTO.getId());
+        month.setNotes(monthDTO.getNotes());
         return month;
     }
 
@@ -49,9 +50,13 @@ public class MonthServiceImpl implements MonthService{
     public MonthDTO mapToMonthDTO(Month month){
         MonthDTO monthDTO=new MonthDTO();
         monthDTO.setId(month.getId());
-        monthDTO.setMonth(month.getMonth());
+        monthDTO.setMonth(YearMonth.from(month.getMonth()));
         monthDTO.setUser_id(month.getUser().getId());
         monthDTO.setNotes(month.getNotes());
         return monthDTO;
+    }
+    @Override
+    public void deleteNote(long id){
+        monthRepository.deleteById(id);
     }
 }

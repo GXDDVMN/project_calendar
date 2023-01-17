@@ -16,4 +16,5 @@ public interface MonthService {
     List<MonthDTO> mapToListDTO(List<Month> months);
 
     MonthDTO mapToMonthDTO(Month month);
+    void deleteNote(long id);
 }

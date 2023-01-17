@@ -55,8 +55,20 @@
 
 
 <div style="display: flex; ">
-  <div id="calendar">
+  <div>
+    <div id="calendar" class="calendar">
+    </div>
+    <div id ="newNote">
+      <form method="post" th:action="@{/notes/save}" th:object="${note}">
+        <input id="notes" placeholder="Enter new note" required type="text" th:field="*{notes}"/>
+        <input id="month" hidden th:field="*{month}"/>
+        <input id="user_id" hidden th:field="*{user_id}"/>
+        <input id="id" hidden th:field="*{id}"/>
+        <input type="submit" value="Create note">
+      </form>
+    </div>
   </div>
+
   <div id="dayof" hidden>
     Name:
     <br>
@@ -67,6 +79,7 @@
   </div>
   <div id="des">
   </div>
+
 </div>
 
 
@@ -133,7 +146,16 @@
     // закрыть таблицу
     table += '</tr></table>';
 
+
     elem.innerHTML += table;
+    let monthnotes = JSON.parse([[${notes}]]);
+
+
+
+    //monthnotes.forEach(n=> elem.innerHTML += n.notes);
+    monthnotes.forEach(n=>
+    elem.innerHTML += (n.notes +' <a href="/notes/delete?noteId='+n.id+'"> Delete</a><br>')
+    )
   }
 
   function getDay(date) { // получить номер дня недели, от 0 (пн) до 6 (вс)

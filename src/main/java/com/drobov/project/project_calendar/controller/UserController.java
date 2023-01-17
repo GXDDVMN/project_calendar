@@ -2,7 +2,6 @@ package com.drobov.project.project_calendar.controller;
 
 import com.drobov.project.project_calendar.dto.DateDTO;
 import com.drobov.project.project_calendar.dto.MonthDTO;
-import com.drobov.project.project_calendar.repository.MonthRepository;
 import com.drobov.project.project_calendar.service.DateService;
 import com.drobov.project.project_calendar.service.MonthService;
 import com.drobov.project.project_calendar.service.UserService;
@@ -44,7 +43,10 @@ public class UserController {
 
 
         List<MonthDTO> notes=monthService.getNotesForUser(user_id, YearMonth.from(localDate));
-        model.addAttribute("notes", notes);
+        model.addAttribute("notes", objectMapper.writeValueAsString(notes));
+        MonthDTO newMonth = new MonthDTO();
+        newMonth.setMonth(YearMonth.from(localDate));
+        model.addAttribute("note",newMonth);
         return "calendar";
     }
 
@@ -87,6 +89,16 @@ public class UserController {
     @PostMapping("/dates/save")
     public String saveDate(@ModelAttribute("date")DateDTO dateDTO){
         dateService.saveDate(dateDTO);
+        return "redirect:/calendar";
+    }
+    @PostMapping("/notes/save")
+    public String saveNote(@ModelAttribute("note")MonthDTO monthDTO){
+        monthService.saveNote(monthDTO);
+        return "redirect:/calendar";
+    }
+    @GetMapping("/notes/delete")
+    public String deleteNote(@RequestParam("noteId")long id) {
+        monthService.deleteNote(id);
         return "redirect:/calendar";
     }
     @ResponseBody

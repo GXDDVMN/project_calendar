@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.YearMonth;
 
 @Data
@@ -23,7 +24,7 @@ public class Month {
     @JoinColumn(name = "user_id")
     private User user;
     @Column(name="month")
-    private YearMonth month;
+    private LocalDate month;
     @Column(name="notes")
     private String notes;
 }

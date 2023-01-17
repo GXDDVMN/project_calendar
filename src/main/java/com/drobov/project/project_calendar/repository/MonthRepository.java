@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface MonthRepository extends JpaRepository<Month,Long> {
-    List<Month> findAllByUser_IdAndMonth(long user_id, YearMonth month);
+    List<Month> findAllByUser_IdAndMonth(long user_id, LocalDate month);
 }
