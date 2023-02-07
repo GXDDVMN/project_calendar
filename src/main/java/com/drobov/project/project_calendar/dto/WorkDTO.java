@@ -1,25 +1,26 @@
 package com.drobov.project.project_calendar.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.awt.*;
 import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DateDTO {
+public class WorkDTO {
     private long id;
     private long user_id;
-    private String dateof;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    private String name;
     private LocalTime starttime;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime endtime;
-    private String doname;
-    private String descrip;
+    private double salary;
+    private String color;
+    private String schedule;
+    private String start_day;
 }

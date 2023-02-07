@@ -2,9 +2,11 @@ package com.drobov.project.project_calendar.controller;
 
 import com.drobov.project.project_calendar.dto.DateDTO;
 import com.drobov.project.project_calendar.dto.MonthDTO;
+import com.drobov.project.project_calendar.dto.WorkDTO;
 import com.drobov.project.project_calendar.service.DateService;
 import com.drobov.project.project_calendar.service.MonthService;
 import com.drobov.project.project_calendar.service.UserService;
+import com.drobov.project.project_calendar.service.WorkService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class UserController {
@@ -25,16 +29,16 @@ public class UserController {
     private UserService userService;
     @Autowired
     private MonthService monthService;
-    //private LocalDate localDate=LocalDate.now();
+    @Autowired
+    private WorkService workService;
     @GetMapping("/calendar/{id}")
     public String calendar(Model model,Principal principal,@PathVariable Integer id) throws JsonProcessingException {
         if (id == null) id=0;
         LocalDate localDate=LocalDate.now().plusMonths(id);
         model.addAttribute("local", localDate);
         long user_id=userService.findUserByEmail(principal.getName()).getId();
-        List<DateDTO> dates=dateService.showDatesForMonth(user_id, localDate.getMonth());
+        List<DateDTO> dates=dateService.showDatesForMonth(user_id, localDate);
         List<Integer> days = dates.stream().map(dateDTO -> Integer.parseInt(dateDTO.getDateof().substring(8))).toList();
-        model.addAttribute("dates",dates);
 
         ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 
@@ -47,6 +51,11 @@ public class UserController {
         MonthDTO newMonth = new MonthDTO();
         newMonth.setMonth(YearMonth.from(localDate));
         model.addAttribute("note",newMonth);
+        List<WorkDTO> works = workService.showWorksForUser(user_id);
+        model.addAttribute("works",works);
+        model.addAttribute("worksjson",objectMapper.writeValueAsString(works));
+        boolean[][] arr=workService.mapToMass(works, localDate);
+        model.addAttribute("worksbool",objectMapper.writeValueAsString(arr));
         return "calendar";
     }
 
@@ -66,7 +75,7 @@ public class UserController {
     public List<DateDTO> showDatesForMonth(Principal principal) {
         return dateService.showDatesForMonth(
                 userService.findUserByEmail(
-                        principal.getName()).getId(), LocalDate.now().getMonth());
+                        principal.getName()).getId(), LocalDate.now());
     }
 
     @GetMapping("/dates/save")
@@ -99,6 +108,29 @@ public class UserController {
     @GetMapping("/notes/delete")
     public String deleteNote(@RequestParam("noteId")long id) {
         monthService.deleteNote(id);
+        return "redirect:/calendar";
+    }
+    @GetMapping("/works/save")
+    public String getSaveWork(Model model) {
+        WorkDTO workDTO = new WorkDTO();
+        model.addAttribute("work", workDTO);
+        return "/savework";
+    }
+    @PostMapping("/works/save")
+    public String saveWork(@ModelAttribute("work")WorkDTO workDTO){
+        workService.saveWork(workDTO);
+        return "redirect:/calendar";
+    }
+    @GetMapping("/works/delete")
+    public String deleteWork(@RequestParam("workId")long id){
+        workService.deleteWork(id);
+        return "redirect:/calendar";
+    }
+    @GetMapping(value = "/works/saveColor")
+    public String saveWorkColor(@RequestParam("workId")long id,@RequestParam("colorId")String colorId){
+        WorkDTO work = workService.findById(id);
+        work.setColor("#"+colorId);
+        workService.saveWork(work);
         return "redirect:/calendar";
     }
     @ResponseBody

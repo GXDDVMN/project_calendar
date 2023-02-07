@@ -40,7 +40,7 @@
   <div class="row col-md-8 offset-md-2">
     <div class="card">
       <div class="card-header">
-        <h2 class="text-center">Date adding</h2>
+        <h2 class="text-center">Work adding</h2>
       </div>
       <div th:if="${param.success}">
         <div class="alert alert-info">
@@ -51,8 +51,8 @@
         <form
                 method="post"
                 role="form"
-                th:action="@{/dates/save}"
-                th:object="${date}"
+                th:action="@{/works/save}"
+                th:object="${work}"
         >
           <div class="form-group mb-3" hidden>
             <label class="form-label">Description</label>
@@ -68,43 +68,29 @@
             <label class="form-label">Name</label>
             <input
                     class="form-control"
-                    id="doname"
-                    name="doname"
-                    placeholder="Enter name of date"
-                    th:field="*{doname}"
+                    id="name"
+                    name="name"
+                    placeholder="Enter name of work"
+                    th:field="*{name}"
                     type="text"
             />
-            <p th:errors = "*{doname}" class="text-danger"
-               th:if="${#fields.hasErrors('doname')}"></p>
+            <p th:errors = "*{name}" class="text-danger"
+               th:if="${#fields.hasErrors('name')}"></p>
           </div>
 
 
           <div class="form-group mb-3">
-            <label class="form-label">Description</label>
+            <label class="form-label">Start date</label>
             <input
                     class="form-control"
-                    id="descrip"
-                    name="descrip"
-                    placeholder="Enter description"
-                    th:field="*{descrip}"
-                    type="text"
-            />
-            <p th:errors = "*{descrip}" class="text-danger"
-               th:if="${#fields.hasErrors('descrip')}"></p>
-          </div>
-
-          <div class="form-group mb-3">
-            <label class="form-label">Date</label>
-            <input
-                    class="form-control"
-                    id="dateof"
-                    name="dateof"
-                    placeholder="Enter the date"
-                    th:field="*{dateof}"
+                    id="start_day"
+                    name="start_day"
+                    placeholder="Enter the date you started work"
+                    th:field="*{start_day}"
                     type="date"
             />
-            <p th:errors = "*{dateof}" class="text-danger"
-               th:if="${#fields.hasErrors('dateof')}"></p>
+            <p th:errors = "*{start_day}" class="text-danger"
+               th:if="${#fields.hasErrors('start_day')}"></p>
           </div>
           <div class="form-group mb-3">
             <label class="form-label">Start time</label>
@@ -112,28 +98,65 @@
                     class="form-control"
                     id="starttime"
                     name="starttime"
-                    placeholder="Enter time of starting"
+                    placeholder="Enter start time of workday"
                     th:field="*{starttime}"
                     type="time"
             />
-            <p th:errors = "*{descrip}" class="text-danger"
-               th:if="${#fields.hasErrors('descrip')}"></p>
+            <p th:errors = "*{starttime}" class="text-danger"
+               th:if="${#fields.hasErrors('starttime')}"></p>
           </div>
           <div class="form-group mb-3">
-            <label class="form-label">Ending time</label>
+            <label class="form-label">End time</label>
             <input
                     class="form-control"
                     id="endtime"
                     name="endtime"
-                    placeholder="Enter time of ending"
+                    placeholder="Enter time of ending workday"
                     th:field="*{endtime}"
                     type="time"
             />
             <p th:errors = "*{endtime}" class="text-danger"
                th:if="${#fields.hasErrors('endtime')}"></p>
           </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Salary(per day)</label>
+            <input
+                    class="form-control"
+                    id="salary"
+                    name="salary"
+                    placeholder="Enter your salary"
+                    th:field="*{salary}"
+                    type="number"
+            />
+            <p th:errors = "*{salary}" class="text-danger"
+               th:if="${#fields.hasErrors('salary')}"></p>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Schedule</label>
+            <select th:field="*{schedule}" id="schedule">
+              <option value="5/2">5/2</option>
+              <option value="2/2">2/2</option>
+              <option value="1/3">1/3</option>
+              <option value="3/3">3/3</option>
+            </select>
+            <p th:errors = "*{schedule}" class="text-danger"
+               th:if="${#fields.hasErrors('schedule')}"></p>
+          </div>
+          <div class="form-group mb-3">
+            <label class="form-label">Color</label>
+            <input
+                    class="form-control-color"
+                    id="color"
+                    name="color"
+                    placeholder="Enter color"
+                    th:field="*{color}"
+                    type="color"
+            />
+            <p th:errors = "*{color}" class="text-danger"
+               th:if="${#fields.hasErrors('color')}"></p>
+          </div>
           <div class="form-group">
-            <button class="btn btn-primary" type="submit">Add</button>
+            <button class="btn btn-primary" type="submit">Save</button>
           </div>
         </form>
       </div>

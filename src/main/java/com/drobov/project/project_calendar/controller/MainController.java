@@ -24,7 +24,7 @@ public class MainController {
 
     @GetMapping("/")
     public String homePage() {
-        return "home";
+        return "redirect:/calendar/0";
     }
 
     @GetMapping("/auth")
@@ -39,7 +39,6 @@ public class MainController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        // create model object to store form data
         UserDTO user = new UserDTO();
         model.addAttribute("user", user);
         return "register";

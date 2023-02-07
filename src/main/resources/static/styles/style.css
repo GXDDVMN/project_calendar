@@ -24,11 +24,20 @@ body{
     list-style-type: none;
   }
 
+.tr_test{
+    height: 80px;
+}
+
+
 th,
 tr,
 td {
     height: 80px;
     width: 90px;
+}
+.td_work{
+    height: 40px;
+    text-align: center;
 }
 
 th {

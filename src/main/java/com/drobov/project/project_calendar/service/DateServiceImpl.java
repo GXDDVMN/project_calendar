@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,10 +60,8 @@ public class DateServiceImpl implements DateService{
         dateDTO.setDateof(date.getDateof().toString());
         dateDTO.setStarttime(date.getStarttime());
         dateDTO.setEndtime(date.getEndtime());
-        dateDTO.setSalary(date.getSalary());
         dateDTO.setDoname(date.getDoname());
         dateDTO.setDescrip(date.getDescrip());
-        dateDTO.setWorkbool(date.getWorkbool());
         dateDTO.setUser_id(date.getUser().getId());
         return dateDTO;
     }
@@ -75,16 +72,17 @@ public class DateServiceImpl implements DateService{
         date.setDateof(LocalDate.parse(dateDTO.getDateof()));
         date.setStarttime(dateDTO.getStarttime());
         date.setEndtime(dateDTO.getEndtime());
-        date.setSalary(dateDTO.getSalary());
         date.setDoname(dateDTO.getDoname());
         date.setDescrip(dateDTO.getDescrip());
-        date.setWorkbool(dateDTO.getWorkbool());
-
         return date;
     }
     @Override
-    public List<DateDTO> showDatesForMonth(long user_id, Month month) {
-        List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id).stream().filter(date->date.getDateof().getMonth()==month).toList());
+    public List<DateDTO> showDatesForMonth(long user_id, LocalDate month) {
+        List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id)
+                .stream()
+                .filter(date->date.getDateof().getYear()==month.getYear()&date.getDateof().getMonth()==month.getMonth())
+                .toList());
+
         return allDates;
     }
 }
