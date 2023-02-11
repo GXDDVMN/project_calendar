@@ -24,11 +24,12 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping("/all-dates")
-    public List<DateDTO> showAllDates(){
+    public List<DateDTO> showAllDates() {
         return dateService.showDates();
     }
+
     @GetMapping("/users")
-    public String users(Model model){
+    public String users(Model model) {
         List<UserDTO> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "users";

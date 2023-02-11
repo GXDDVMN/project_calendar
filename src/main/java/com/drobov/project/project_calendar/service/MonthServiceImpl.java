@@ -15,7 +15,7 @@ import java.time.YearMonth;
 import java.util.stream.Collectors;
 
 @Service
-public class MonthServiceImpl implements MonthService{
+public class MonthServiceImpl implements MonthService {
 
     @Autowired
     private MonthRepository monthRepository;
@@ -24,18 +24,20 @@ public class MonthServiceImpl implements MonthService{
 
     @Override
     public List<MonthDTO> getNotesForUser(long user_id, YearMonth month) {
-        return mapToListDTO(monthRepository.findAllByUser_IdAndMonth(user_id, LocalDate.of(month.getYear(),month.getMonth(),1)));
+        return mapToListDTO(monthRepository.findAllByUser_IdAndMonth(user_id, LocalDate.of(month.getYear(), month.getMonth(), 1)));
     }
+
     @Override
-    public void saveNote(MonthDTO monthDTO){
-        User user= userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        Month month=mapDTOToMonth(monthDTO);
+    public void saveNote(MonthDTO monthDTO) {
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Month month = mapDTOToMonth(monthDTO);
         month.setUser(user);
         monthRepository.save(month);
     }
+
     @Override
     public Month mapDTOToMonth(MonthDTO monthDTO) {
-        Month month=new Month();
+        Month month = new Month();
         month.setMonth(monthDTO.getMonth().atDay(1));
         month.setId(monthDTO.getId());
         month.setNotes(monthDTO.getNotes());
@@ -43,20 +45,22 @@ public class MonthServiceImpl implements MonthService{
     }
 
     @Override
-    public List<MonthDTO> mapToListDTO(List<Month> months){
+    public List<MonthDTO> mapToListDTO(List<Month> months) {
         return months.stream().map(month -> mapToMonthDTO(month)).collect(Collectors.toList());
     }
+
     @Override
-    public MonthDTO mapToMonthDTO(Month month){
-        MonthDTO monthDTO=new MonthDTO();
+    public MonthDTO mapToMonthDTO(Month month) {
+        MonthDTO monthDTO = new MonthDTO();
         monthDTO.setId(month.getId());
         monthDTO.setMonth(YearMonth.from(month.getMonth()));
         monthDTO.setUser_id(month.getUser().getId());
         monthDTO.setNotes(month.getNotes());
         return monthDTO;
     }
+
     @Override
-    public void deleteNote(long id){
+    public void deleteNote(long id) {
         monthRepository.deleteById(id);
     }
 }

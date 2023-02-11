@@ -116,8 +116,8 @@
                     th:field="*{starttime}"
                     type="time"
             />
-            <p th:errors = "*{descrip}" class="text-danger"
-               th:if="${#fields.hasErrors('descrip')}"></p>
+            <p th:errors = "*{starttime}" class="text-danger"
+               th:if="${#fields.hasErrors('starttime')}"></p>
           </div>
           <div class="form-group mb-3">
             <label class="form-label">Ending time</label>
@@ -131,6 +131,8 @@
             />
             <p th:errors = "*{endtime}" class="text-danger"
                th:if="${#fields.hasErrors('endtime')}"></p>
+            <p th:errors = "${date}" class="text-danger"
+               th:if="${#fields.hasErrors('${date}')}"></p>
           </div>
           <div class="form-group">
             <button class="btn btn-primary" type="submit">Add</button>

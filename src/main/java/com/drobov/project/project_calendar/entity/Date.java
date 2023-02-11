@@ -1,7 +1,6 @@
 package com.drobov.project.project_calendar.entity;
 
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,21 +15,21 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="dates")
+@Table(name = "dates")
 public class Date {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
-    @Column(name="dateof")
+    @Column(name = "dateof")
     private LocalDate dateof;
-    @Column(name="starttime")
+    @Column(name = "starttime")
     private LocalTime starttime;
-    @Column(name="endtime")
+    @Column(name = "endtime")
     private LocalTime endtime;
-    @Column(name="doname")
+    @Column(name = "doname")
     private String doname;
-    @Column(name="descrip")
+    @Column(name = "descrip")
     private String descrip;
     @ManyToOne
     @JoinColumn(name = "user_id")

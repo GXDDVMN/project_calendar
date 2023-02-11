@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DateServiceImpl implements DateService{
+public class DateServiceImpl implements DateService {
     @Autowired
     private DateRepository dateRepository;
     @Autowired
     private UserRepository userRepository;
+
     @Override
     public List<DateDTO> showDates() {
         return mapToListDTO(dateRepository.findAll());
@@ -38,23 +39,24 @@ public class DateServiceImpl implements DateService{
     }
 
     @Override
-    public void saveDate(DateDTO dateDTO)
-    {
-        User user= userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        Date date=mapDTOToDate(dateDTO);
+    public void saveDate(DateDTO dateDTO) {
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Date date = mapDTOToDate(dateDTO);
         date.setUser(user);
         dateRepository.save(date);
     }
+
     @Transactional
     @Override
     public void deleteDate(long id) {
         dateRepository.deleteById(id);
     }
 
-    public List<DateDTO> mapToListDTO(List<Date> dates){
+    public List<DateDTO> mapToListDTO(List<Date> dates) {
         return dates.stream().map(date -> mapToDateDto(date)).collect(Collectors.toList());
     }
-    public DateDTO mapToDateDto(Date date){
+
+    public DateDTO mapToDateDto(Date date) {
         DateDTO dateDTO = new DateDTO();
         dateDTO.setId(date.getId());
         dateDTO.setDateof(date.getDateof().toString());
@@ -66,7 +68,7 @@ public class DateServiceImpl implements DateService{
         return dateDTO;
     }
 
-    public Date mapDTOToDate(DateDTO dateDTO){
+    public Date mapDTOToDate(DateDTO dateDTO) {
         Date date = new Date();
         date.setId(dateDTO.getId());
         date.setDateof(LocalDate.parse(dateDTO.getDateof()));
@@ -76,11 +78,12 @@ public class DateServiceImpl implements DateService{
         date.setDescrip(dateDTO.getDescrip());
         return date;
     }
+
     @Override
     public List<DateDTO> showDatesForMonth(long user_id, LocalDate month) {
         List<DateDTO> allDates = mapToListDTO(dateRepository.findAllByUser_Id(user_id)
                 .stream()
-                .filter(date->date.getDateof().getYear()==month.getYear()&date.getDateof().getMonth()==month.getMonth())
+                .filter(date -> date.getDateof().getYear() == month.getYear() & date.getDateof().getMonth() == month.getMonth())
                 .toList());
 
         return allDates;

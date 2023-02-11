@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.time.LocalTime;
 
 @Data
@@ -15,26 +14,26 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="works")
+@Table(name = "works")
 public class Work {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
-    @Column(name="starttime")
+    @Column(name = "starttime")
     private LocalTime starttime;
-    @Column(name="endtime")
+    @Column(name = "endtime")
     private LocalTime endtime;
-    @Column(name="salary")
+    @Column(name = "salary")
     private double salary;
-    @Column(name="color")
+    @Column(name = "color")
     private String color;
-    @Column(name="work_schedule")
+    @Column(name = "work_schedule")
     private String schedule;
     @Column(name = "start_day")
     private String start_day;

@@ -1,7 +1,6 @@
 package com.drobov.project.project_calendar.service;
 
 import com.drobov.project.project_calendar.dto.WorkDTO;
-import com.drobov.project.project_calendar.entity.Date;
 import com.drobov.project.project_calendar.entity.User;
 import com.drobov.project.project_calendar.entity.Work;
 import com.drobov.project.project_calendar.repository.UserRepository;
@@ -69,18 +68,19 @@ public class WorkServiceImpl implements WorkService {
                             arr[i][j - k] = true;
                     }
                     if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1))) {
-                        for (int j = 0;j < workdate.getDayOfMonth(); j++)
-                            arr[i][j]=false;
+                        for (int j = 0; j < workdate.getDayOfMonth(); j++)
+                            arr[i][j] = false;
                     }
                     break;
                 }
                 case '2': {
 
-                    k=(k%4)+1;
-                    if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1))) k = -workdate.getDayOfMonth()+2;
-                    for (int j = 1-k, d=1; j < arr[0].length;d++, j++) {
-                        if (((d % 4) < 3) & ((d % 4)!=0)){
-                            if (j>=0)
+                    k = (k % 4) + 1;
+                    if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1)))
+                        k = -workdate.getDayOfMonth() + 2;
+                    for (int j = 1 - k, d = 1; j < arr[0].length; d++, j++) {
+                        if (((d % 4) < 3) & ((d % 4) != 0)) {
+                            if (j >= 0)
                                 arr[i][j] = true;
                         }
                     }
@@ -88,22 +88,24 @@ public class WorkServiceImpl implements WorkService {
                 }
                 case '3': {
 
-                    k=(k%6)+1;
-                    if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1))) k = -workdate.getDayOfMonth()+2;
-                    for (int j = 1-k, d=1; j < arr[0].length;d++, j++) {
-                        if (((d % 6) < 4) & ((d % 6)!=0)){
-                            if (j>=0)
+                    k = (k % 6) + 1;
+                    if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1)))
+                        k = -workdate.getDayOfMonth() + 2;
+                    for (int j = 1 - k, d = 1; j < arr[0].length; d++, j++) {
+                        if (((d % 6) < 4) & ((d % 6) != 0)) {
+                            if (j >= 0)
                                 arr[i][j] = true;
                         }
                     }
                     break;
                 }
                 case '1': {
-                    k=(k%4)+1;
-                    if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1))) k = -workdate.getDayOfMonth()+2;
-                    for (int j = 1-k, d=1; j < arr[0].length;d++, j++) {
-                        if (((d % 4) < 2) & ((d % 4)!=0)){
-                            if (j>=0)
+                    k = (k % 4) + 1;
+                    if (workdate.withDayOfMonth(1).isEqual(localdate.withDayOfMonth(1)))
+                        k = -workdate.getDayOfMonth() + 2;
+                    for (int j = 1 - k, d = 1; j < arr[0].length; d++, j++) {
+                        if (((d % 4) < 2) & ((d % 4) != 0)) {
+                            if (j >= 0)
                                 arr[i][j] = true;
                         }
                     }
@@ -119,8 +121,8 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     public void saveWork(WorkDTO workDTO) {
-        User user= userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        Work work=mapDTOToWork(workDTO);
+        User user = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        Work work = mapDTOToWork(workDTO);
         work.setUser(user);
         workRepository.save(work);
     }

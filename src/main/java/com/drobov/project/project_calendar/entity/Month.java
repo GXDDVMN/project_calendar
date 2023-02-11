@@ -7,24 +7,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.YearMonth;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="month")
+@Table(name = "month")
 public class Month {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    @Column(name="month")
+    @Column(name = "month")
     private LocalDate month;
-    @Column(name="notes")
+    @Column(name = "notes")
     private String notes;
 }

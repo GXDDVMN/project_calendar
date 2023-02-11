@@ -8,9 +8,13 @@ import java.util.List;
 
 public interface WorkService {
     List<WorkDTO> showWorksForUser(long user_id);
+
     WorkDTO findById(long id);
+
     WorkDTO mapToWorkDTO(Work work);
+
     List<WorkDTO> mapToListDTO(List<Work> works);
+
     boolean[][] mapToMass(List<WorkDTO> works, LocalDate localdate);
 
     void saveWork(WorkDTO workDTO);

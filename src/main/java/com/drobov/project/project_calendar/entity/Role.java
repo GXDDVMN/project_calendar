@@ -18,8 +18,8 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "role",nullable = false,unique = true)
+    @Column(name = "role", nullable = false, unique = true)
     private String role;
     @ManyToMany(mappedBy = "roles")
-    private List<User> users =new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 }
