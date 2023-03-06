@@ -21,6 +21,10 @@ public class MonthServiceImpl implements MonthService {
     private MonthRepository monthRepository;
     @Autowired
     private UserRepository userRepository;
+    @Override
+    public MonthDTO findById(long id){
+        return mapToMonthDTO(monthRepository.findById(id).get());
+    }
 
     @Override
     public List<MonthDTO> getNotesForUser(long user_id, YearMonth month) {

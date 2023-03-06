@@ -18,4 +18,6 @@ public interface MonthService {
     MonthDTO mapToMonthDTO(Month month);
 
     void deleteNote(long id);
+
+    MonthDTO findById(long id);
 }

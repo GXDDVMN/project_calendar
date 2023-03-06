@@ -96,8 +96,10 @@ public class UserController {
 
     @GetMapping("/dates/delete")
     public String getDeleteDate(@RequestParam("dateId") long id) {
+        DateDTO dateDTO = dateService.showDate(id);
         dateService.deleteDate(id);
-        return "redirect:/calendar";
+        return "redirect:/calendar/"+YearMonth.from(LocalDate.parse(dateDTO.getDateof())).compareTo(YearMonth.now());
+
     }
 
     @PostMapping("/dates/save")
@@ -107,19 +109,20 @@ public class UserController {
             return "/savedate";
         }
         dateService.saveDate(dateDTO);
-        return "redirect:/calendar";
+        return "redirect:/calendar/"+YearMonth.from(LocalDate.parse(dateDTO.getDateof())).compareTo(YearMonth.now());
     }
 
     @PostMapping("/notes/save")
     public String saveNote(@ModelAttribute("note") MonthDTO monthDTO) {
         monthService.saveNote(monthDTO);
-        return "redirect:/calendar";
+        return "redirect:/calendar/"+monthDTO.getMonth().compareTo(YearMonth.now());
     }
 
     @GetMapping("/notes/delete")
     public String deleteNote(@RequestParam("noteId") long id) {
+        MonthDTO monthDTO = monthService.findById(id);
         monthService.deleteNote(id);
-        return "redirect:/calendar";
+        return "redirect:/calendar/"+monthDTO.getMonth().compareTo(YearMonth.now());
     }
 
     @GetMapping("/works/save")

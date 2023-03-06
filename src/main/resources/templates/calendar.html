@@ -10,66 +10,57 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
   <link rel="stylesheet" th:href="@{/styles/style.css}" type="text/css">
-
-
-
 </head>
 
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" th:href="@{/calendar}">Calendar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/register}">Registration</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/dates/save}">Add date</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
-        </li>
-      </ul>
+<body class="page">
+
+<header class="header sticky">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/calendar}">Calendar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/login}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/register}">Registration</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/dates/save}">Add date</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/logout}">Logout</a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
-<br/><br/>
-<div>
-  <p><a th:href="@{/calendar}"> Go to Now </a></p>
-
-    <a id="elemIdMinus" href=""> <- </a>
-  <text th:text ="${local.getMonth()}"></text>
-    <a id="elemIdPlus" href=""> -> </a>
-  <p th:text ="${local.getYear()}"></p>
-</div>
+  </nav>
+</header>
 
 
 
+<div class="main" style="display: flex; ">
+  <div class="left-panel">
+    <section id="calendar_nav" class="calendar">
+      <div class="month-navi">
+        <a th:href="@{/calendar}"> Switch to current month </a> <br>
+        <a id="elemIdMinus" href=""> <- </a>
+        <text th:text ="${local.getMonth()}"></text>
+        <a id="elemIdPlus" href=""> -> </a>
+        <br>
+        <text th:text ="${local.getYear()}"></text>
+      </div>
+      <div id="calendar"></div>
+    </section>
 
-<div style="display: flex; ">
-  <div>
-    <div id="calendar" class="calendar">
-    </div>
-    <div id ="newNote">
-      <form method="post" th:action="@{/notes/save}" th:object="${note}">
-        <input id="notes" placeholder="Enter new note" required type="text" th:field="*{notes}"/>
-        <input id="month" hidden th:field="*{month}"/>
-        <input id="user_id" hidden th:field="*{user_id}"/>
-        <input id="id" hidden th:field="*{id}"/>
-        <input type="submit" value="Create note">
-      </form>
-    </div>
-    <div id ="works">
+    <section id ="works">
       <table>
-        <tr>
+        <tr style="text-align: center">
           <th>NAME</th>
           <th>WORKTIME</th>
           <th>COLOR</th>
@@ -78,7 +69,7 @@
           <th>PROFIT</th>
           <th>OPTIONS</th>
         </tr>
-        <tr th:each="work : ${works}">
+        <tr th:each="work : ${works}" style="text-align: center">
           <td th:text="${work.name}">Onions</td>
           <td th:text="${work.starttime}+' - '+${work.endtime}"></td>
           <td th:id="color_id_+${work.id}" th:style="'background-color: ' + ${work.color}"><input th:id="inputColor_+${work.id}" class="form-control-color" type="color" th:value="${work.color}" hidden/> </td>
@@ -90,186 +81,220 @@
             <button class="btn bg-info" th:id="buttonSaveColor+${work.id}" type="button" hidden th:onclick="'saveColor(\''+${work.id}+'\');'">Save</button>
             <button class="btn bg-info" th:id="buttonDeleteWork+${work.id}" type="button" th:onclick="'deleteWork(\''+${work.id}+'\');'">Delete</button>
             <button class="btn bg-info" th:id="buttonCancel+${work.id}" type="button" hidden th:onclick="'cancel(\''+${work.id}+'\');'">Cancel</button>
-           </td>
+          </td>
         </tr>
         <tr class="td_work"> <td  class="td_work" id="button_for_work" hidden colspan="7"> <a class="btn" th:href="@{/works/save}">Add new work</a></td></tr>
       </table>
+    </section>
+  </div>
+
+
+
+
+
+
+
+
+
+  <section class="right-panel">
+
+    <div class="activity">
+      <div id="activity2" class="activity2">
+        <h2>You</h2> <br>
+        <h3>have</h3> <br>
+        <h1><text th:text="${days.size()}"></text></h1> <br>
+        <h2>event(s)</h2> <br>
+      </div>
+      <div id="description" class="dates-description" hidden>
+        <h2>You have <text th:text="${days.size()}"></text> event(s)</h2>
+        <br><br>
+        <h3><b><text id="date_name"></text></b></h3>
+        <br>
+        <text id="date_date"></text>
+        <br>
+        <text id="date_time"></text>
+        <br>
+        <text id="date_descrip"></text>
+        <br>
+        <text id="date_functions">
+          <a id="elemEditHref"><button class="btn-info">edit</button></a>
+          <a id="elemDeleteHref"><button class="btn-info">delete</button></a>
+        </text>
+      </div>
+
+
     </div>
+    <div id="divnotes" class="notes">
+      <div style="text-align: center"><h2>Notes for this month</h2></div>
+    </div>
+    <div id ="newNote">
+      <form method="post" th:action="@{/notes/save}" th:object="${note}">
+        <input id="notes" style="width: 79%" placeholder="Enter new note" required type="text" th:field="*{notes}"/>
+        <input id="month" hidden th:field="*{month}"/>
+        <input id="user_id" hidden th:field="*{user_id}"/>
+        <input id="id" hidden th:field="*{id}"/>
+        <input type="submit" style="width: 20%" value="Create note">
+      </form>
+    </div>
+  </section>
   </div>
 
-  <div id="dayof" hidden>
-    Name:
-    <br>
-    Description:
-    <br>
-    Date:
-    <br>
-  </div>
-  <div id="des">
-  </div>
 
-</div>
+  <script th:inline="javascript">
+    function createCalendar(elem, year, month) {
 
+      let mon = month - 1;
+      let d = new Date(year, mon);
+      let days = "[[${days}]]".substring(1,"[[${days}]]".length-1).split(',');
+      let dates = JSON.parse([[${datesjson}]]);
 
-<script th:inline="javascript">
-  function createCalendar(elem, year, month) {
+      let works=JSON.parse([[${worksjson}]])
+      let workstable = JSON.parse([[${worksbool}]])
 
-    let mon = month - 1; // месяцы в JS идут от 0 до 11, а не от 1 до 12
-    let d = new Date(year, mon);
-    let days3 = "[[${days}]]".substring(1,"[[${days}]]".length-1).split(',');
-    let dates2 = JSON.parse([[${datesjson}]]);
+      let table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr>';
 
-    let works=JSON.parse([[${worksjson}]])
-    let workstable = JSON.parse([[${worksbool}]])
-
-    let table = '<table><tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>';
-
-    // пробелы для первого ряда
-    // с понедельника до первого дня месяца
-    // * * * 1  2  3  4
-    for (let i = 0; i < getDay(d); i++) {
-      table += '<td></td>';
-    }
-
-    // <td> ячейки календаря с датами
-    while (d.getMonth() == mon) {
-
-      let a = '<td>';
-
-      if (workstable[0]!=null)
-       if (workstable[0][d.getDate()-1]==true) {
-         a = '<td style="background-color: ' + works[0].color + '">';
-         if (workstable[1]!=null)
-           if (workstable[1][d.getDate()-1]==true)
-             a = '<td style="background: linear-gradient(to right bottom, '+ works[0].color +', '+ works[1].color +');">';
-       }else {
-         if (workstable[1] != null)
-           if (workstable[1][d.getDate() - 1] == true)
-             a = '<td style="background-color: ' + works[1].color + '">';
-       }
-
-
-      a += d.getDate();
-      if (days3.includes(d.getDate().toString())){
-        for (let i=0;i<days3.length;i++){
-          if(days3[i]==d.getDate())
-          a+='<p><input type="button" class="button1" value="'+dates2[i].starttime+'" onclick="getDate(\''+i+'\');"  ></p>';
-        }
-        a+='</td>';
-
-      }
-      table +=a+'</td>';
-
-
-
-
-
-      if (getDay(d) % 7 == 6) { // вс, последний день - перевод строки
-        table += '</tr><tr>';
-      }
-
-      d.setDate(d.getDate() + 1);
-    }
-
-    // добить таблицу пустыми ячейками, если нужно
-    // 29 30 31 * * * *
-    if (getDay(d) != 0) {
-      for (let i = getDay(d); i < 7; i++) {
+      // пробелы для первого ряда
+      // с понедельника до первого дня месяца
+      // * * * 1  2  3  4
+      for (let i = 0; i < getDay(d); i++) {
         table += '<td></td>';
       }
+
+      while (d.getMonth() == mon) {
+        if (getDay(d) % 7 == 0) { // пн, начало ряда
+          table += '<tr>';
+        }
+        let a = '<td>';
+
+        if (workstable[0]!=null) // окрашивание рабочих дней
+          if (workstable[0][d.getDate()-1]==true) {
+            a = '<td style="background-color: ' + works[0].color + '">';
+            if (workstable[1]!=null)
+              if (workstable[1][d.getDate()-1]==true)
+                a = '<td style="background: linear-gradient(to right bottom, '+ works[0].color +', '+ works[1].color +');">';
+          }else {
+            if (workstable[1] != null)
+              if (workstable[1][d.getDate() - 1] == true)
+                a = '<td style="background-color: ' + works[1].color + '">';
+          }
+
+
+        a += d.getDate();
+        if (days.includes(d.getDate().toString())){ // добавлние заметок
+          for (let i=0;i<days.length;i++){
+            if(days[i]==d.getDate())
+              a+='<p><input type="button" class="button1" value="'+dates[i].starttime+'" onclick="getDate(\''+i+'\');"  ></p>';
+          }
+          a+='</td>';
+
+        }
+        table +=a+'</td>';
+
+
+        if (getDay(d) % 7 == 6) { // вс, последний день - конец ряда
+          table += '</tr>';
+        }
+
+        d.setDate(d.getDate() + 1);
+      }
+
+      // добить таблицу пустыми ячейками, если нужно
+      // 29 30 31 * * * *
+      if (getDay(d) != 0) {
+        for (let i = getDay(d); i < 7; i++) {
+          table += '<td></td>';
+        }
+      }
+
+      table +='<tr class="td_work"> <td  class="td_work" id="button_for_date" colspan="7"> <a class="btn" href="/dates/save">Add date</a></td></tr>';
+      //кнопка добавления заметки
+
+      table += '</table>'; // закрыть таблицу
+
+
+      elem.innerHTML += table;
+
+
+      if (works.length<2) // кнопка добавления работы
+        button_for_work.hidden=false;
+      if (works[0]!=null) // вывод суммы зп
+        work0.innerHTML=workstable[0].filter(n=>n==true).length*works[0].salary;
+      if (works[1]!=null)
+        work1.innerHTML=workstable[1].filter(n=>n==true).length*works[1].salary;
+
+      let monthnotes = JSON.parse([[${notes}]]); // вывод заметок к месяцу
+      monthnotes.forEach(n=>
+              divnotes.innerHTML += ('<li>'+ n.notes +' <a href="/notes/delete?noteId='+n.id+'" style="text-align: right"> Delete</a></li>')
+
+      );
+
     }
 
-    // закрыть таблицу
-    table += '</tr></table>';
+    function getDay(date) { // получить номер дня недели, от 0 (пн) до 6 (вс)
+      let day = date.getDay();
+      if (day == 0) day = 7; // сделать воскресенье (0) последним днем
+      return day - 1;
+    }
+
+    function getDate(day){
+      let dates = JSON.parse([[${datesjson}]]);
+      activity2.hidden=true;
+      let dateformat=new Date(Date.parse(dates[day].dateof));
+      document.querySelector("#date_date").innerHTML=dateformat.toLocaleDateString();
+      document.querySelector("#date_name").innerHTML=dates[day].doname;
+      document.querySelector("#date_time").innerHTML=dates[day].starttime+' - '+dates[day].endtime;
+      document.querySelector("#date_descrip").innerHTML='DESCRIPTION<br>'+dates[day].descrip;
+      document.querySelector('#elemEditHref').href=`/dates/edit?dateId=${dates[day].id}`;
+      document.querySelector('#elemDeleteHref').href = `/dates/delete?dateId=${dates[day].id}`;
+      description.hidden=false;
+    }
+
+    function getURL(){
+      let link = window.location.href;
+      let val = Number(link.split('/').pop());
+      const a = document.querySelector('#elemIdMinus');
+      a.href = `/calendar/${val-1}`;
+      const b = document.querySelector('#elemIdPlus');
+      b.href = `/calendar/${val+1}`;
+    }
+    function changeColor(id){
+      const a = document.querySelector('#inputColor_'+id);
+      a.hidden=false;
+      const b = document.querySelector('#buttonSaveColor'+id);
+      b.hidden=false;
+      const c = document.querySelector('#buttonColor'+id);
+      c.hidden=true;
+      const e = document.querySelector('#buttonCancel'+id);
+      e.hidden=false;
+      const d = document.querySelector('#buttonDeleteWork'+id);
+      d.hidden=true;
+    }
+    function saveColor(id){
+      let a = document.querySelector('#inputColor_'+id);
+      let b = a.value.substring(1);
+      location.replace('/works/saveColor?workId='+id+'&colorId='+b);
+    }
+    function deleteWork(id){
+      location.replace('/works/delete?workId='+id);
+    }
+    function cancel(id){
+      const a = document.querySelector('#inputColor_'+id);
+      a.hidden=true;
+      const b = document.querySelector('#buttonSaveColor'+id);
+      b.hidden=true;
+      const c = document.querySelector('#buttonColor'+id);
+      c.hidden=false;
+      const e = document.querySelector('#buttonCancel'+id);
+      e.hidden=true;
+      const d = document.querySelector('#buttonDeleteWork'+id);
+      d.hidden=false;
+    }
+
+    getURL();
+    createCalendar(calendar, "[[${local.getYear()}]]", "[[${local.getMonthValue()}]]");
 
 
-    elem.innerHTML += table;
+  </script>
 
-    let monthnotes = JSON.parse([[${notes}]]);
-
-
-    if (works.length<2)
-      button_for_work.hidden=false;
-    if (works[0]!=null)
-      work0.innerHTML=workstable[0].filter(n=>n==true).length*works[0].salary;
-    if (works[1]!=null)
-      work1.innerHTML=workstable[1].filter(n=>n==true).length*works[1].salary;
-    monthnotes.forEach(n=>
-    elem.innerHTML += (n.notes +' <a href="/notes/delete?noteId='+n.id+'"> Delete</a><br>')
-    )
-  }
-
-  function getDay(date) { // получить номер дня недели, от 0 (пн) до 6 (вс)
-    let day = date.getDay();
-    if (day == 0) day = 7; // сделать воскресенье (0) последним днем
-    return day - 1;
-  }
-
-  function getDate(day){
-    let dates = JSON.parse([[${datesjson}]]);
-
-    dayof.hidden=false;
-    des.innerHTML=(dates[day].doname);
-    des.innerHTML+=('<br>');
-    des.innerHTML+=(dates[day].descrip);
-    des.innerHTML+=('<br>');
-    des.innerHTML+=(dates[day].starttime);
-    des.innerHTML+=('<br>');
-    des.innerHTML+=('<a id="elemEditHref" href="/dates/edit"> Edit date </a><br>');
-    des.innerHTML+=('<a id="elemDeleteHref" href="/dates/delete"> Delete date </a>');
-    const s = document.querySelector('#elemEditHref');
-    s.href = `/dates/edit?dateId=${dates[day].id}`;
-    const d = document.querySelector('#elemDeleteHref');
-    d.href = `/dates/delete?dateId=${dates[day].id}`;
-  }
-  function getURL(){
-    let link = window.location.href;
-    let val = Number(link.split('/').pop());
-    const a = document.querySelector('#elemIdMinus');
-    a.href = `/calendar/${val-1}`;
-    const b = document.querySelector('#elemIdPlus');
-    b.href = `/calendar/${val+1}`;
-  }
-  function changeColor(id){
-    const a = document.querySelector('#inputColor_'+id);
-    a.hidden=false;
-    const b = document.querySelector('#buttonSaveColor'+id);
-    b.hidden=false;
-    const c = document.querySelector('#buttonColor'+id);
-    c.hidden=true;
-    const e = document.querySelector('#buttonCancel'+id);
-    e.hidden=false;
-    const d = document.querySelector('#buttonDeleteWork'+id);
-    d.hidden=true;
-  }
-  function saveColor(id){
-    let a = document.querySelector('#inputColor_'+id);
-    let b = a.value.substring(1);
-    location.replace('/works/saveColor?workId='+id+'&colorId='+b);
-  }
-  function deleteWork(id){
-    location.replace('/works/delete?workId='+id);
-  }
-  function cancel(id){
-    const a = document.querySelector('#inputColor_'+id);
-    a.hidden=true;
-    const b = document.querySelector('#buttonSaveColor'+id);
-    b.hidden=true;
-    const c = document.querySelector('#buttonColor'+id);
-    c.hidden=false;
-    const e = document.querySelector('#buttonCancel'+id);
-    e.hidden=true;
-    const d = document.querySelector('#buttonDeleteWork'+id);
-    d.hidden=false;
-  }
-
-  getURL();
-  createCalendar(calendar, "[[${local.getYear()}]]", "[[${local.getMonthValue()}]]");
-
-
-</script>
-
-<!--<p th:text="${notes}"></p>-->
-<a th:href="@{/dates/save}">Add date</a>
 </body>
 </html>

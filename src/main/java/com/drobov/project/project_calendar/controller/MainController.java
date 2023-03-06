@@ -26,11 +26,6 @@ public class MainController {
         return "redirect:/calendar/0";
     }
 
-    @GetMapping("/auth")
-    public String authPage() {
-        return "auth";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login";
