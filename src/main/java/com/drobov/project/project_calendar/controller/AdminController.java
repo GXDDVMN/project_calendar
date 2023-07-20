@@ -3,7 +3,6 @@ package com.drobov.project.project_calendar.controller;
 
 import com.drobov.project.project_calendar.dto.DateDTO;
 import com.drobov.project.project_calendar.dto.UserDTO;
-import com.drobov.project.project_calendar.entity.Date;
 import com.drobov.project.project_calendar.service.DateService;
 import com.drobov.project.project_calendar.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,12 @@ public class AdminController {
 
     @ResponseBody
     @GetMapping("/all-dates")
-    public List<DateDTO> showAllDates(){
+    public List<DateDTO> showAllDates() {
         return dateService.showDates();
     }
+
     @GetMapping("/users")
-    public String users(Model model){
+    public String users(Model model) {
         List<UserDTO> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "users";

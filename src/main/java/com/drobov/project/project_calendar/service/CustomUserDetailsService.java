@@ -24,11 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(usernameOrEmail);
         if (user != null) {
-            return new org.springframework.security.core.userdetails.User(user.getEmail()
-                    , user.getPassword(),
-                    user.getRoles().stream()
-                            .map((role) -> new SimpleGrantedAuthority(role.getRole()))
-                            .collect(Collectors.toList()));
+            return new org.springframework.security.core.userdetails
+                    .User(user.getEmail(), user.getPassword(), user.getRoles().stream().map((role) ->
+                    new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList()));
         } else {
             throw new UsernameNotFoundException("Invalid email or password");
         }

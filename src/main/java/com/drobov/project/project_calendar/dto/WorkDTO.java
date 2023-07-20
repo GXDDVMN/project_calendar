@@ -1,11 +1,12 @@
 package com.drobov.project.project_calendar.dto;
 
+
 import com.drobov.project.project_calendar.validation.CheckTime;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
@@ -15,19 +16,19 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @CheckTime
-public class DateDTO {
+public class WorkDTO {
     private long id;
     private long user_id;
-    @NotEmpty(message = "Enter the date")
-    private String dateof;
-    @NotNull(message = "Enter start time of event")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @NotEmpty(message = "Enter your name")
+    private String name;
+    @NotNull(message = "Fill the form please")
     private LocalTime starttime;
-    @NotNull(message = "Enter end time of event")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @NotNull(message = "Fill the form please")
     private LocalTime endtime;
+    private double salary;
+    private String color;
     @NotEmpty
-    private String doname;
-    @NotEmpty
-    private String descrip;
+    private String schedule;
+    @NotEmpty(message = "Enter the beginning day")
+    private String start_day;
 }

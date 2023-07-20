@@ -29,8 +29,5 @@ public class User {
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> roles=new ArrayList<>();
-    //@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "user")
-    //private List<Date> dates;
-
+    private List<Role> roles = new ArrayList<>();
 }

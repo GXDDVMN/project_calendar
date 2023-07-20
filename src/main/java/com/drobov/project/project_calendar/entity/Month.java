@@ -1,6 +1,5 @@
 package com.drobov.project.project_calendar.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,30 +7,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "dates")
-public class Date {
+@Table(name = "month")
+public class Month {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "dateof")
-    private LocalDate dateof;
-    @Column(name = "starttime")
-    private LocalTime starttime;
-    @Column(name = "endtime")
-    private LocalTime endtime;
-    @Column(name = "doname")
-    private String doname;
-    @Column(name = "descrip")
-    private String descrip;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @Column(name = "month")
+    private LocalDate month;
+    @Column(name = "notes")
+    private String notes;
 }
