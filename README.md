@@ -23,3 +23,6 @@
 - **Thymeleaf**
 - **Spring Data JPA**
 - **А также базовый HTML + CSS и совсем немножко Javascript**
+
+p.s 
+Скриншоты находятся в папке screenshots
